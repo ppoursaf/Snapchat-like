@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import {Container, Content} from 'native-base'
 import Swiper from 'react-native-swiper'
+
+import CameraComponent from './Components/Camera'
 
 
 const styles = StyleSheet.create({
@@ -21,6 +23,19 @@ const styles = StyleSheet.create({
 })
 
 export default function App() {
+  const [scrollEnabled, setScrollEnabled] = useState(true)
+
+  const verticalScroll = (index) => {
+    if (index !== 1){
+      setScrollEnabled(false)
+    }
+    else {
+      setScrollEnabled(true)
+    }
+  }
+
+  console.log(scrollEnabled)
+
   return (
     <Container>
       <Content>
@@ -32,9 +47,23 @@ export default function App() {
           <View style={styles.slideDefault} >
             <Text style={styles.text}> Chat </Text>
           </View>
-          <View style={styles.slideDefault}>
-            <Text style={styles.text}> Camera </Text>
-          </View>
+          <Swiper
+          loop={false}
+          horizontal={false}
+          showsPagination={false}
+          index={1}
+          onIndexChanged={(index) => verticalScroll(index)}
+          > 
+            <View style={styles.slideDefault}>
+              <Text style={styles.text}> Search </Text>
+            </View>
+            <View style={{flex: 1}}>
+              <CameraComponent />
+            </View>
+            <View style={styles.slideDefault}>
+              <Text style={styles.text}> Memories </Text>
+            </View>
+          </Swiper>
           <View style={styles.slideDefault}>
             <Text style={styles.text}> Stories </Text>
           </View>
